@@ -11,7 +11,7 @@ public class CityPreference {
     }
 
     // If the user has not chosen a city yet, return
-    // Sydney as the default city
+    // Malyy Fontan, UA as the default city
     String getCity(){
         return prefs.getString("city", "Malyy Fontan, UA");
     }

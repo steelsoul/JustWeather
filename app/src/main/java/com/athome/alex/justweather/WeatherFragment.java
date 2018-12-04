@@ -33,11 +33,7 @@ public class WeatherFragment extends Fragment {
     TextView currentTemperatureField;
     TextView weatherIcon;
 
-    Handler handler;
-
-    public WeatherFragment(){
-        handler = new Handler();
-    }
+    Handler handler = new Handler();
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -92,7 +88,7 @@ public class WeatherFragment extends Fragment {
     private void updateWeatherData(final String city){
         new Thread(){
             public void run(){
-                final JSONObject json = RemoteFetch.getJSON(getActivity(), city);
+                final JSONObject json = RemoteFetch.getJSON_Map(getActivity(), city);
                 if(json == null){
                     handler.post(new Runnable(){
                         public void run(){
@@ -121,16 +117,15 @@ public class WeatherFragment extends Fragment {
             JSONObject details = json.getJSONArray("weather").getJSONObject(0);
             JSONObject main = json.getJSONObject("main");
             detailsField.setText(
-                    details.getString("description").toUpperCase(Locale.US) +
-                            "\n" + "Humidity: " + main.getString("humidity") + "%" +
-                            "\n" + "Pressure: " + main.getString("pressure") + " hPa");
+                            "\n" + getString(R.string.humidity) + main.getString("humidity") + "%" +
+                            "\n" + getString(R.string.pressure) + main.getString("pressure") + getString(R.string.pressure_hpa));
 
             currentTemperatureField.setText(
                     String.format("%.2f", main.getDouble("temp"))+ " ℃");
 
             DateFormat df = DateFormat.getDateTimeInstance();
             String updatedOn = df.format(new Date(json.getLong("dt")*1000));
-            updatedField.setText("Last update: " + updatedOn);
+            updatedField.setText(getString(R.string.last_update)+": " + updatedOn);
 
             setWeatherIcon(details.getInt("id"),
                     json.getJSONObject("sys").getLong("sunrise") * 1000,
