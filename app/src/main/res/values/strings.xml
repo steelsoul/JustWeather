@@ -18,7 +18,7 @@
     <string name="pressure_hpa">КПа</string>
     <string name="last_update">Последнее обновление</string>
 
-    <string name="place_not_found">Sorry, no weather data found.</string>
+    <string name="place_not_found">Данные не найдены.</string>
     <string name="Monday">Пн.</string>
     <string name="Tuesday">Вт.</string>
     <string name="Wednesday">Ср.</string>

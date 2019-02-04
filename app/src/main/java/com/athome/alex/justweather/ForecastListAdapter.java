@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapter.ForecastHolder> {
+
     public ForecastListAdapter(Context context) {
         m_Inflater = LayoutInflater.from(context);
     }

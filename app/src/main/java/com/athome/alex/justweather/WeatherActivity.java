@@ -1,5 +1,6 @@
 package com.athome.alex.justweather;
 
+import android.content.res.AssetManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -8,11 +9,18 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import android.os.Bundle;
+import android.util.Log;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class WeatherActivity extends FragmentActivity {
     // Pages number
-    private static final int NUM_PAGES = 3;
-
+    private static final int NUM_PAGES = 2;
+    private static final String API_KEY_NAME = "api_key.txt";
+    private static final String DEBUG_TAG = "WeatherActivity";
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
      * and next wizard steps.
@@ -29,21 +37,34 @@ public class WeatherActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_weather);
+        RemoteFetch.SetAPIKey(TryReadAPIKeyFromAsset());
+        SetupUI();
+    }
 
+    private void SetupUI() {
         mPager = findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-
         mPager.setAdapter(mPagerAdapter);
+    }
 
-//        FragmentManager fm = getSupportFragmentManager();
-//        Fragment fragment = fm.findFragmentById(R.id.container);
-//
-//        if (fragment == null) {
-//            fragment = new WeatherFragment();
-//            fm.beginTransaction()
-//                    .add(R.id.container, fragment)
-//                    .commit();
-//        }
+    private String TryReadAPIKeyFromAsset() {
+        AssetManager assetManager = getApplicationContext().getAssets();
+        return ReadApiKeyFromAsset(assetManager);
+     }
+
+    private String ReadApiKeyFromAsset(AssetManager assetManager) {
+        try {
+            final InputStream inputStream = assetManager.open(API_KEY_NAME);
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            return ReadFirstLine(reader);
+        } catch (IOException ex) {
+            Log.e(DEBUG_TAG, "No api key found in asset");
+        }
+        return null;
+    }
+
+    private String ReadFirstLine(BufferedReader reader) throws IOException {
+        return reader.readLine();
     }
 
     @Override
@@ -74,8 +95,6 @@ public class WeatherActivity extends FragmentActivity {
                 case 0:
                     return new WeatherFragment();
                 case 1:
-                    return new ForecastFragment();
-                case 2:
                     return new FragmentForecastGraph();
                 default:
                     return null;

@@ -1,5 +1,6 @@
 package com.athome.alex.justweather;
 
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import java.util.List;
 
 public class FragmentForecastGraph extends Fragment {
     private LineGraphSeries<DataPoint> m_DataSeries;
+    private LineGraphSeries<DataPoint> m_LowDataSeries;
     Handler m_Handler = new Handler();
     GraphView m_Graph = null;
 
@@ -44,7 +46,7 @@ public class FragmentForecastGraph extends Fragment {
     private void updateForecastData(final String city){
         new Thread(){
             public void run(){
-                final JSONObject json = RemoteFetch.getJSON_Forecast(getActivity(), city);
+                final JSONObject json = RemoteFetch.getJSON_Forecast(city);
                 if(json == null){
                     m_Handler.post(new Runnable(){
                         public void run(){
@@ -80,13 +82,20 @@ public class FragmentForecastGraph extends Fragment {
                 unit.setM_WeatherID(record.getJSONArray("weather").getJSONObject(0).getInt("id"));
                 forecastList.add(unit);
             }
-            List<DataPoint> points = new ArrayList<>();
+            List<DataPoint> points1 = new ArrayList<>();
+            List<DataPoint> points2 = new ArrayList<>();
             for (ForecastUnit unit: forecastList) {
-                points.add(new DataPoint(unit.getM_Date().getTime(), unit.getM_MaxTemperature()));
+                points1.add(new DataPoint(unit.getM_Date().getTime(), unit.getI_MaxTemperature()));
+                points2.add(new DataPoint(unit.getM_Date().getTime(), unit.getI_MinTemperature()));
             }
-            DataPoint[] datapoints = new DataPoint[points.size()];
-            datapoints = points.toArray(datapoints);
-            m_DataSeries = new LineGraphSeries<>(datapoints);
+            DataPoint[] datapoints1 = new DataPoint[points1.size()];
+            DataPoint[] datapoints2 = new DataPoint[points2.size()];
+            datapoints1 = points1.toArray(datapoints1);
+            datapoints2 = points2.toArray(datapoints2);
+            m_DataSeries = new LineGraphSeries<>(datapoints1);
+            m_DataSeries.setColor(Color.RED);
+            m_LowDataSeries = new LineGraphSeries<>(datapoints2);
+            m_LowDataSeries.setColor(Color.BLUE);
             renderGraph();
 
         } catch(Exception e){
@@ -96,8 +105,8 @@ public class FragmentForecastGraph extends Fragment {
 
     private void renderGraph() {
         m_Graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
-//        m_Graph.getGridLabelRenderer().setNumHorizontalLabels();
         m_Graph.addSeries(m_DataSeries);
+        m_Graph.addSeries(m_LowDataSeries);
 
         // set manual x bounds to have nice steps
         m_Graph.getViewport().setMinX(m_DataSeries.getLowestValueX());
@@ -106,6 +115,7 @@ public class FragmentForecastGraph extends Fragment {
         // as we use dates as labels, the human rounding to nice readable numbers
         // is not necessary
         m_Graph.getGridLabelRenderer().setHumanRounding(false);
+        m_Graph.getGridLabelRenderer().setHorizontalLabelsAngle(50);
     }
 
 }

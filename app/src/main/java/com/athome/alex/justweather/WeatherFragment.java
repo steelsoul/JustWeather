@@ -206,7 +206,7 @@ public class WeatherFragment extends Fragment {
     private void updateWeatherData(final String city){
         new Thread(){
             public void run(){
-                final JSONObject json = RemoteFetch.getJSON_Map(getActivity(), city);
+                final JSONObject json = RemoteFetch.getJSON_Map(city);
                 if(json == null){
                     handler.post(new Runnable(){
                         public void run(){

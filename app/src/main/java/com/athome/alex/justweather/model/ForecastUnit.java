@@ -2,6 +2,8 @@ package com.athome.alex.justweather.model;
 
 import java.util.Date;
 
+import static java.lang.Math.round;
+
 public class ForecastUnit {
     private Date m_Date;
     private Float m_MinTemperature;
@@ -22,12 +24,18 @@ public class ForecastUnit {
         return m_MinTemperature;
     }
 
+    public Integer getI_MinTemperature() { return round(m_MinTemperature);}
+
     public void setM_MinTemperature(Float m_MinTemperature) {
         this.m_MinTemperature = m_MinTemperature;
     }
 
     public Float getM_MaxTemperature() {
         return m_MaxTemperature;
+    }
+
+    public Integer getI_MaxTemperature() {
+        return round(m_MaxTemperature);
     }
 
     public void setM_MaxTemperature(Float m_MaxTemperature) {
