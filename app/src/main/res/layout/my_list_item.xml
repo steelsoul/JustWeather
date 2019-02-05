@@ -10,12 +10,26 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <TextView
-        android:id="@+id/updated_field"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="13sp" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/last_update"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="13sp"
+            android:paddingRight="10sp"/>
+
+        <TextView
+            android:id="@+id/updated_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="13sp" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/weather_icon"
@@ -24,6 +38,10 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="70sp" />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
     <TextView
         android:id="@+id/current_temperature_field"
         android:layout_width="wrap_content"
@@ -31,9 +49,62 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="40sp" />
 
-    <TextView
-        android:id="@+id/details_field"
+        <TextView
+            android:text="@string/celsius"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10sp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="40sp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:paddingRight="10sp"
+            android:text="@string/humidity"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+
+        <TextView
+            android:id="@+id/humidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:text="@string/percent"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:paddingLeft="10sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:paddingRight="10sp"
+            android:text="@string/pressure"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+
+        <TextView
+            android:id="@+id/pressure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:paddingRight="10sp"/>
+
+        <TextView
+            android:text="@string/pressure_hpa"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+    </LinearLayout>
+
+
 </LinearLayout>

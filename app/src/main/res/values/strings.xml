@@ -13,10 +13,12 @@
     <string name="weather_thunder">&#xf01e;</string>
     <string name="weather_drizzle">&#xf01c;</string>
 
-    <string name="humidity">влажность</string>
-    <string name="pressure">давление</string>
+    <string name="humidity">Влажность</string>
+    <string name="pressure">Давление</string>
+    <string name="percent">%</string>
     <string name="pressure_hpa">КПа</string>
     <string name="last_update">Последнее обновление</string>
+    <string name="celsius">"℃"</string>
 
     <string name="place_not_found">Данные не найдены.</string>
     <string name="Monday">Пн.</string>
@@ -26,4 +28,5 @@
     <string name="Friday">Пт.</string>
     <string name="Saturday">Сб.</string>
     <string name="Sunday">Вс.</string>
+
 </resources>

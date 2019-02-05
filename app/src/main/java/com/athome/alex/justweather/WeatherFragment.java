@@ -93,25 +93,26 @@ public class WeatherFragment extends Fragment {
             }
             WeatherData w = getWeatherData(position);
 
-            TextView cityfield = view.findViewById(R.id.city_field);
-            cityfield.setText(w.city_field);
+            TextView city = view.findViewById(R.id.city_field);
+            city.setText(w.city_field);
 
-            TextView updated = view.findViewById(R.id.updated_field);
+            TextView updated_time = view.findViewById(R.id.updated_field);
             DateFormat df = DateFormat.getDateTimeInstance();
-            String updatedOn = df.format(new Date(w.updated_time*1000));
-            updated.setText(getString(R.string.last_update)+": " + updatedOn);
+            String updatedOn = df.format(new Date(w.updated_time));
+            updated_time.setText(updatedOn);
 
             TextView weatherIcon = view.findViewById(R.id.weather_icon);
             weatherIcon.setTypeface(specFont);
-            weatherIcon.setText(getWeatherIconText(w.icon_id, w.icon_sunrize*1000, w.icon_sunset*1000));
+            weatherIcon.setText(getWeatherIconText(w.icon_id, w.icon_sunrize, w.icon_sunset));
 
-            TextView currenttemp = view.findViewById(R.id.current_temperature_field);
-            currenttemp.setText(String.format("%.2f", w.temperature)+ " ℃");
+            TextView current_temp = view.findViewById(R.id.current_temperature_field);
+            current_temp.setText(String.format("%.1f", w.temperature));
 
-            TextView details = view.findViewById(R.id.details_field);
-            // TODO: split into 2 items
-            details.setText("\n" + getString(R.string.humidity) + w.humidity + "%" +
-                    "\n" + getString(R.string.pressure) + w.pressure_kpa + getString(R.string.pressure_hpa));
+            TextView humidity = view.findViewById(R.id.humidity);
+            humidity.setText(w.humidity);
+
+            TextView pressure = view.findViewById(R.id.pressure);
+            pressure.setText(w.pressure_kpa);
 
             return view;
         }
@@ -125,7 +126,7 @@ public class WeatherFragment extends Fragment {
             int id = actualId / 100;
             String icon = "";
             if(actualId == 800){
-                long currentTime = new Date().getTime();
+                long currentTime = new Date().getTime() / 1000;
                 if(currentTime>=sunrise && currentTime<sunset) {
                     icon = getActivity().getString(R.string.weather_sunny);
                 } else {
@@ -241,7 +242,7 @@ public class WeatherFragment extends Fragment {
             String humidity = main.getString("humidity");
             String pressure = main.getString("pressure");
             double temperature = main.getDouble("temp");
-            long dateinfo = json.getLong("dt");
+            long dateinfo = json.getLong("dt")*1000;
 
             int details_id = details.getInt("id");
             long sunrize = json.getJSONObject("sys").getLong("sunrise");
